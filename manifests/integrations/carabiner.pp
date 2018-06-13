@@ -1,5 +1,4 @@
-class datadog_agent::integrations::carabiner (
-) inherits datadog_agent::params {
+class datadog_agent::integrations::carabiner inherits datadog_agent::params {
   include datadog_agent
 
   file { "${datadog_agent::conf6_dir}/carabiner.yaml":
