@@ -207,7 +207,7 @@ class datadog_agent(
   $facts_to_tags = [],
   $puppet_run_reports = false,
   $puppetmaster_user = $settings::user,
-  $non_local_traffic = false,
+  $non_local_traffic = true
   $dogstreams = [],
   $log_level = 'info',
   $log_to_syslog = true,
@@ -270,7 +270,7 @@ class datadog_agent(
   $dd_groups = $datadog_agent::params::dd_groups,
   $apm_enabled = $datadog_agent::params::apm_default_enabled,
   $apm_env = 'none',
-  $apm_non_local_traffic = false,
+  $apm_non_local_traffic = true
   $process_enabled = $datadog_agent::params::process_default_enabled,
   $scrub_args = $datadog_agent::params::process_default_scrub_args,
   $custom_sensitive_words = $datadog_agent::params::process_default_custom_words,
