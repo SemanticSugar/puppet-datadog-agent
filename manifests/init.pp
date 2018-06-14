@@ -194,40 +194,6 @@
 #
 #
 
-# For compatibility with puppet 4.6 return type is left
-# out of the function signature, but `tag6` should return
-# an Array
-
-function datadog_agent::tag6(
-  Variant[Array, String] $tag_names,
-  Variant[String, Boolean] $lookup_fact = false,
-) {
-  if $tag_names =~ Array {
-    $tags = $tag_names.reduce([]) |$_tags , $tag| {
-        concat($_tags, datadog_agent::tag6($tag, $lookup_fact))
-    }
-  } else {
-    if $lookup_fact =~ String {
-      $lookup = str2bool($lookup_fact)
-    } else {
-      $lookup = $lookup_fact
-    }
-
-    if $lookup {
-      $value = getvar($tag_names)
-      if $value =~ Array {
-        $tags = prefix($value, "${tag_names}:")
-      } else {
-        $tags = [$tag_names]
-      }
-    } else {
-      $tags = [$tag_names]
-    }
-  }
-
-  $tags
-}
-
 class datadog_agent(
   $dd_url = 'https://app.datadoghq.com',
   $host = '',
@@ -507,9 +473,6 @@ class datadog_agent(
       group   => $dd_group,
       notify  => Service[$datadog_agent::params::service_name]
     }
-
-    $_local_tags = datadog_agent::tag6($local_tags, false)
-    $_facts_tags = datadog_agent::tag6($facts_to_tags, true)
 
     $_agent_config = {
       'api_key' => $api_key,
