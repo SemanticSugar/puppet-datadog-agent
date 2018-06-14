@@ -533,7 +533,7 @@ class datadog_agent(
   
   create_resources('datadog_agent::integration', $local_integrations)
 
-  file { 'etc/datadog-agent/conf.d/carabiner.d':
+  file { '/etc/datadog-agent/conf.d/carabiner.d':
     ensure  => directory,
     purge   => $false,
     recurse => true,
