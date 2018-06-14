@@ -41,4 +41,16 @@ class datadog_agent::redhat::agent6(
   package { $datadog_agent::params::package_name:
     ensure  => $agent_version,
   }
+
+  service { $datadog_agent::params::service_name:
+    ensure    => $service_ensure,
+    enable    => $service_enable,
+    hasstatus => false,
+    pattern   => 'dd-agent',
+    require   => Package[$datadog_agent::params::package_name],
+    start     => 'initctl start datadog-agent',
+    stop      => 'initctl stop datadog-agent',
+    status    => 'initctl status datadog-agent'
+  }
+
 }
