@@ -533,6 +533,15 @@ class datadog_agent(
   
   create_resources('datadog_agent::integration', $local_integrations)
 
+  file { 'etc/datadog-agent/conf.d/carabiner.d':
+    ensure  => directory,
+    purge   => $false,
+    recurse => true,
+    force   => $false,
+    owner   => $dd_user,
+    group   => $dd_group,
+  }
+
   file { '/etc/datadog-agent/conf.d/carabiner.d/conf.yaml':
     ensure => present,
     source => 'puppet:///modules/datadog_agent/conf.yaml',
