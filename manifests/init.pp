@@ -484,6 +484,7 @@ class datadog_agent(
       'dogstatsd_port' => $dogstatsd_port,
       'dogstatsd_socket' => $dogstatsd_socket,
       'dogstatsd_non_local_traffic' => $non_local_traffic,
+      'logs_enabled' => true,
       'log_file' => $agent6_log_file,
       'log_level' => $log_level,
       'tags' => [],
@@ -529,11 +530,6 @@ class datadog_agent(
       hostname_extraction_regex => $hostname_extraction_regex,
     }
   }
-
-  create_resources('datadog_agent::integration', $local_integrations)
   
-  exec { 'rename_default_configs':
-    command => 'find /etc/dd-agent/conf.d -iname "*.yaml.default" -exec rename yaml.default yaml "{}" \;',
-    onlyif  => 'ls /etc/dd-agent/conf.d/*default',
-  }
+  create_resources('datadog_agent::integration', $local_integrations)
 }
