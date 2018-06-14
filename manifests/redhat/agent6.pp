@@ -43,6 +43,7 @@ class datadog_agent::redhat::agent6(
   }
 
   service { $datadog_agent::params::service_name:
+    provider  => 'upstart',
     ensure    => $service_ensure,
     enable    => $service_enable,
     hasstatus => false,
