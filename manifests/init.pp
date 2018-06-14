@@ -485,7 +485,7 @@ class datadog_agent(
       'dogstatsd_non_local_traffic' => $non_local_traffic,
       'log_file' => $agent6_log_file,
       'log_level' => $log_level,
-      'tags' => unique(flatten(union($_local_tags, $_facts_tags))),
+      'tags' => [],
     }
 
     $agent_config = deep_merge($_agent_config, $extra_config)
