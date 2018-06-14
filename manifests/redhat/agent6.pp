@@ -43,10 +43,13 @@ class datadog_agent::redhat::agent6(
   }
 
   service { $datadog_agent::params::service_name:
-    provider  => 'upstart',
     ensure    => $service_ensure,
     hasstatus => false,
     pattern   => 'dd-agent',
     require   => Package[$datadog_agent::params::package_name],
+    start     => 'initctl start datadog-agent',
+    stop      => 'initctl stop datadog-agent',
+    status    => 'initctl status datadog-agent',
+    restart   => 'initctl restart datadog-agent',
   }
 }
