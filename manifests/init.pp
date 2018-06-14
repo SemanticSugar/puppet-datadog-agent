@@ -535,7 +535,7 @@ class datadog_agent(
 
   file { '/etc/datadog-agent/conf.d/carabiner.d/conf.yaml':
     ensure => present,
-    source => 'puppet://modules/datadog-agent/conf.yaml',
+    source => 'puppet://modules/datadog_agent/conf.yaml',
     notify  => Service[$datadog_agent::params::service_name],
     require => Package['datadog-agent'];
   }
