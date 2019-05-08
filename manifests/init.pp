@@ -110,8 +110,8 @@ class datadog_agent (
   }
 
   file { '/etc/datadog-agent/datadog.yaml':
-    owner   => 'dd-agent',
-    group   => 'dd-agent',
+    owner   => $dd_user,
+    group   => $dd_group,
     mode    => '0640',
     ensure => present,
     notify  => Service[$service_name],
@@ -120,8 +120,8 @@ class datadog_agent (
   }
 
   file { '/etc/datadog-agent/conf.d/carabiner.d/conf.yaml':
-    owner   => 'dd-agent',
-    group   => 'dd-agent',
+    owner   => $dd_user,
+    group   => $dd_group,
     mode    => '0640',
     ensure => present,
     source => 'puppet:///modules/datadog_agent/carabiner_conf.yaml',
@@ -130,8 +130,8 @@ class datadog_agent (
   }
   
   file { '/etc/datadog-agent/conf.d/system_logs.d/conf.yaml':
-    owner   => 'dd-agent',
-    group   => 'dd-agent',
+    owner   => $dd_user,
+    group   => $dd_group,
     mode    => '0640',
     ensure => present,
     source => 'puppet:///modules/datadog_agent/system_logs_conf.yaml',
@@ -140,8 +140,8 @@ class datadog_agent (
   }
 
   file { '/etc/datadog-agent/conf.d/custom_logs.d/conf.yaml':
-    owner   => 'dd-agent',
-    group   => 'dd-agent',
+    owner   => $dd_user,
+    group   => $dd_group,
     mode    => '0640',
     ensure => present,
     notify  => Service[$service_name],
