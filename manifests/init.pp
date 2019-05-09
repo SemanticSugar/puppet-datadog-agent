@@ -14,14 +14,6 @@ class datadog_agent (
   $service_ensure      = 'running'
   $service_enable      = true
 
-  if $ec2_tag_service {
-    $actual_service = $ec2_tag_service
-  } elsif $ec2_tag_application {
-    $actual_service = $ec2_tag_application
-  } else {
-    $actual_service = $service
-  }
-
   yumrepo {'datadog':
     ensure   => absent,
   }
@@ -66,8 +58,8 @@ class datadog_agent (
     force   => false,
     owner   => $dd_user,
     group   => $dd_group,
-    notify  => Service[$service_name]
-    require => Package['datadog-agent'];
+    notify  => Service[$service_name],
+    require => Package['datadog-agent']
   }
 
   file { '/etc/datadog-agent/conf.d':
@@ -78,7 +70,7 @@ class datadog_agent (
     owner   => $dd_user,
     group   => $dd_group,
     notify  => Service[$service_name],
-    require => Package['datadog-agent'];
+    require => Package['datadog-agent']
   }
 
   file { '/etc/datadog-agent/conf.d/carabiner.d':
@@ -89,7 +81,7 @@ class datadog_agent (
     owner   => $dd_user,
     group   => $dd_group,
     notify  => Service[$service_name],
-    require => Package['datadog-agent'];
+    require => Package['datadog-agent']
   }
 
   file { '/etc/datadog-agent/conf.d/system_logs.d':
@@ -100,7 +92,7 @@ class datadog_agent (
     owner   => $dd_user,
     group   => $dd_group,
     notify  => Service[$service_name],
-    require => Package['datadog-agent'];
+    require => Package['datadog-agent']
   }
 
   file { '/etc/datadog-agent/conf.d/custom_logs.d':
@@ -111,7 +103,7 @@ class datadog_agent (
     owner   => $dd_user,
     group   => $dd_group,
     notify  => Service[$service_name],
-    require => Package['datadog-agent'];
+    require => Package['datadog-agent']
   }
 
   file { '/etc/datadog-agent/datadog.yaml':
@@ -121,7 +113,7 @@ class datadog_agent (
     ensure => present,
     notify  => Service[$service_name],
     content => template('datadog_agent/datadog.yaml.erb'),
-    require => Package['datadog-agent'];
+    require => Package['datadog-agent']
   }
 
   file { '/etc/datadog-agent/conf.d/carabiner.d/conf.yaml':
@@ -131,7 +123,7 @@ class datadog_agent (
     ensure => present,
     source => 'puppet:///modules/datadog_agent/carabiner_conf.yaml',
     notify  => Service[$service_name],
-    require => Package['datadog-agent'];
+    require => Package['datadog-agent']
   }
 
   file { '/etc/datadog-agent/conf.d/system_logs.d/conf.yaml':
@@ -141,7 +133,7 @@ class datadog_agent (
     ensure => present,
     source => 'puppet:///modules/datadog_agent/system_logs_conf.yaml',
     notify  => Service[$service_name],
-    require => Package['datadog-agent'];
+    require => Package['datadog-agent']
   }
 
   file { '/etc/datadog-agent/conf.d/custom_logs.d/conf.yaml':
@@ -151,7 +143,7 @@ class datadog_agent (
     ensure => present,
     notify  => Service[$service_name],
     content => template('datadog_agent/custom_logs.yaml.erb'),
-    require => Package['datadog-agent'];
+    require => Package['datadog-agent']
   }
 
   # Set initial permissions on log files
@@ -174,6 +166,6 @@ class datadog_agent (
   # Sometimes the Datadog auth_token file becomes owned by root, chown it just in case
   exec { 'chown_auth_token':
     command => 'chown dd-agent /etc/datadog-agent/auth_token || true',
-    notify  => Service[$service_name];
+    notify  => Service[$service_name]
   }
 }
