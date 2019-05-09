@@ -36,7 +36,7 @@ class datadog_agent (
     descr    => 'Datadog, Inc.',
     baseurl  => $repo_uri
   }
-  
+
   Package { require => Yumrepo['datadog6']}
 
   package { 'datadog-agent-base':
@@ -58,7 +58,7 @@ class datadog_agent (
     status    => 'initctl status datadog-agent || true',
     restart   => 'initctl restart datadog-agent || true';
   }
-  
+
   file { '/etc/datadog-agent':
     ensure  => directory,
     purge   => false,
@@ -66,9 +66,10 @@ class datadog_agent (
     force   => false,
     owner   => $dd_user,
     group   => $dd_group,
-    notify  => Service[$service_name];
+    notify  => Service[$service_name]
+    require => Package['datadog-agent'];
   }
-  
+
   file { '/etc/datadog-agent/conf.d':
     ensure  => directory,
     purge   => false,
@@ -76,7 +77,8 @@ class datadog_agent (
     force   => false,
     owner   => $dd_user,
     group   => $dd_group,
-    notify  => Service[$service_name];
+    notify  => Service[$service_name],
+    require => Package['datadog-agent'];
   }
 
   file { '/etc/datadog-agent/conf.d/carabiner.d':
@@ -86,9 +88,10 @@ class datadog_agent (
     force   => false,
     owner   => $dd_user,
     group   => $dd_group,
-    notify  => Service[$service_name];
+    notify  => Service[$service_name],
+    require => Package['datadog-agent'];
   }
-  
+
   file { '/etc/datadog-agent/conf.d/system_logs.d':
     ensure  => directory,
     purge   => false,
@@ -96,9 +99,10 @@ class datadog_agent (
     force   => false,
     owner   => $dd_user,
     group   => $dd_group,
-    notify  => Service[$service_name];
+    notify  => Service[$service_name],
+    require => Package['datadog-agent'];
   }
-  
+
   file { '/etc/datadog-agent/conf.d/custom_logs.d':
     ensure  => directory,
     purge   => false,
@@ -106,7 +110,8 @@ class datadog_agent (
     force   => false,
     owner   => $dd_user,
     group   => $dd_group,
-    notify  => Service[$service_name];
+    notify  => Service[$service_name],
+    require => Package['datadog-agent'];
   }
 
   file { '/etc/datadog-agent/datadog.yaml':
@@ -128,7 +133,7 @@ class datadog_agent (
     notify  => Service[$service_name],
     require => Package['datadog-agent'];
   }
-  
+
   file { '/etc/datadog-agent/conf.d/system_logs.d/conf.yaml':
     owner   => $dd_user,
     group   => $dd_group,
