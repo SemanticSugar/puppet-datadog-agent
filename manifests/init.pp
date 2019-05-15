@@ -45,10 +45,7 @@ class datadog_agent (
     hasstatus => false,
     pattern   => 'dd-agent',
     require   => Package[$package_name],
-    start     => 'initctl start datadog-agent || true',
-    stop      => 'initctl stop datadog-agent || true',
-    status    => 'initctl status datadog-agent || true',
-    restart   => 'initctl restart datadog-agent || true';
+    provider  => 'upstart' 
   }
 
   file { '/etc/datadog-agent':
